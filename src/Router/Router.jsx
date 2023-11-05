@@ -7,6 +7,7 @@ import AllFoodItems from "../page/Food/AllFoodItems";
 import Page404 from "../page/Error/Page404";
 import SignIn from "../page/SignIn/SignIn";
 import SignUp from "../page/SignUp/SignUp";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,18 @@ const router = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/add-food-item",
+        element: (
+          <PrivateRoute>
+            <AddFood />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/all-food",
+        element: <AllFoodItems />,
       },
     ],
   },

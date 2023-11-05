@@ -23,7 +23,6 @@ const NavBar = () => {
       await logOut();
       showSuccessAlert();
     } catch (error) {
-     
       console.error(error);
     }
   };
@@ -94,6 +93,8 @@ const NavBar = () => {
             <>
               <ul className="menu menu-horizontal px-1   items-center justify-center">
                 <li tabIndex={0}>
+
+
                   <details>
                     <summary>
                       <label
@@ -106,6 +107,8 @@ const NavBar = () => {
                       </label>
                       <p className="hidden md:grid">{displayName}</p>
                     </summary>
+
+                    
                     <ul className="p-2 w-48 bg-gray-950">
                       <li>
                         <Link to="/my-added-product">My Added Product</Link>
