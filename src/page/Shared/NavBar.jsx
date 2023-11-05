@@ -1,8 +1,9 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 const NavBar = () => {
   return (
-    <div className=" bg-gray-950">
+    <div className="bg-gray-950">
       <div className="navbar text-white max-w-7xl mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
@@ -27,58 +28,63 @@ const NavBar = () => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Item 1</a>
+                <NavLink to="/">Home</NavLink>
               </li>
               <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
+                <NavLink to="/all-food">All Food</NavLink>
               </li>
               <li>
-                <a>Item 3</a>
+                <NavLink to="/blog">Blog</NavLink>
               </li>
             </ul>
           </div>
-          <Link className=" normal-case gap-2 text-xl flex  items-center justify-center">
+          <Link
+            to="/"
+            className="normal-case gap-2 text-xl flex items-center justify-center"
+          >
             <img
-              className="w-16"
+              className="w-16 hidden md:flex"
               src="https://i.ibb.co/sKZFWQJ/logo-back.png"
               alt="FreshTaste"
             />
-            <h2 className="text-3xl font-bold">FreshTaste</h2>
+            <h2 className="text-2xl md:text-3xl font-bold">FreshTaste</h2>
           </Link>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex mx-4">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Item 1</a>
+              <NavLink to="/">Home</NavLink>
             </li>
+            <li>
+              <NavLink to="/all-food">All Food</NavLink>
+            </li>
+            <li>
+              <NavLink to="/blog">Blog</NavLink>
+            </li>
+          </ul>
+        </div>
+        <div className="navbar-end lg:flex">
+          <ul className="menu menu-horizontal px-1">
             <li tabIndex={0}>
               <details>
-                <summary>Parent</summary>
-                <ul className="p-2">
+                <summary>USER</summary>
+                <ul className="p-2 w-48">
                   <li>
-                    <a>Submenu 1</a>
+                    <Link to="/my-added-product">My Added Product</Link>
                   </li>
                   <li>
-                    <a>Submenu 2</a>
+                    <Link to="/add-food-item">Add a Food Item</Link>
+                  </li>
+                  <li>
+                    <Link to="/my-order-food-item">My Order Food Item</Link>
                   </li>
                 </ul>
               </details>
             </li>
             <li>
-              <a>Item 3</a>
+              <Link to="/login">Login</Link>
             </li>
           </ul>
-        </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
         </div>
       </div>
     </div>

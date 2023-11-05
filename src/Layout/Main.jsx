@@ -7,7 +7,7 @@ const Main = () => {
   return (
     <div>
       <NavBar />
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto py-16">
         <Outlet />
       </div>
       <Footer />
