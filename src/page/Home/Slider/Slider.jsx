@@ -6,7 +6,7 @@ const Slider = () => {
     <div className="carousel w-full pt-24 ">
       <div id="slide1" className="carousel-item relative w-full">
         <div className="hero min-h-screen  ">
-          <div className="hero-content flex-col lg:flex-row  lg:gap-16">
+          <div className="hero-content flex-col lg:flex-row  lg:gap-16 px-32">
             <img
               src="https://www.freepnglogos.com/uploads/food-png/food-grass-fed-beef-foodservice-products-grass-run-farms-4.png"
               className="max-w-xl "

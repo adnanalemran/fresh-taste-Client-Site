@@ -13,7 +13,7 @@ const AddFood = () => {
     Quantity: "",
     price: "",
     shortDescription: "",
-    AddedBy: email, // Set the "AddedBy" field to the user's email
+    email: email,  
     chiefNames: "",
     foodOrigin: "",
     orderCount: "0",
@@ -147,7 +147,7 @@ const AddFood = () => {
               type="text"
               name="price"
               disabled
-              value={formData.AddedBy}
+              value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-3 rounded-md dark-border-gray-700 dark-bg-gray-900 dark-text-gray-100 focus:dark-border-violet-400"
             />

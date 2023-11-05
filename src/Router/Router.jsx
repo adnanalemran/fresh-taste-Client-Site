@@ -8,6 +8,10 @@ import Page404 from "../page/Error/Page404";
 import SignIn from "../page/SignIn/SignIn";
 import SignUp from "../page/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
+import FoodDetails from "../page/Food/FoodDetails";
+import OrderPage from "../page/Food/OrderPage";
+import MyOrderFood from "../page/Profile/MyOrderFood";
+import MyAdded from "../page/Profile/MyAdded";
 
 const router = createBrowserRouter([
   {
@@ -44,8 +48,41 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/food/:id",
+        element: (
+          <PrivateRoute>
+            <FoodDetails />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/food/order/:id",
+        element: (
+          <PrivateRoute>
+            <OrderPage />
+          </PrivateRoute>
+        ),
+      },
+
+      {
         path: "/all-food",
         element: <AllFoodItems />,
+      },
+      {
+        path: "my-order-food-item",
+        element: (
+          <PrivateRoute>
+            <MyOrderFood />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-added-product",
+        element: (
+          <PrivateRoute>
+            <MyAdded />
+          </PrivateRoute>
+        ),
       },
     ],
   },

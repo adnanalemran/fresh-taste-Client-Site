@@ -22,6 +22,7 @@ const NavBar = () => {
     try {
       await logOut();
       showSuccessAlert();
+      
     } catch (error) {
       console.error(error);
     }

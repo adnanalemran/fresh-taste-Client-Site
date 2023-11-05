@@ -37,7 +37,7 @@ const AllFoodItems = () => {
               </p>
               <p className="text-lg font-bold ">BDT: {foodItem?.price} Tk</p>
               <div className="card-actions flex justify-end grid-cols-3">
-                <Link to={`/foodItem/${foodItem?._id}`}>
+                <Link to={`/food/${foodItem?._id}`}>
                   <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     Details
                   </button>
