@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../providers/AuthProvider";
+import Swal from "sweetalert2";
+
+const showSuccessAlert = () => {
+  Swal.fire({
+    icon: "success",
+    title: "Log out",
+    text: "Successfully logged out",
+  });
+};
 
 const NavBar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const displayName = user?.displayName || "Person";
+  const displayPhotoURL =
+    user?.photoURL ||
+    "https://i.ibb.co/cbLWFkM/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png";
+
+  const handleSignOut = async () => {
+    try {
+      await logOut();
+      showSuccessAlert();
+    } catch (error) {
+     
+      console.error(error);
+    }
+  };
+
   return (
     <div className="bg-gray-950">
       <div className="navbar text-white max-w-7xl mx-auto">
@@ -64,27 +90,50 @@ const NavBar = () => {
           </ul>
         </div>
         <div className="navbar-end lg:flex">
-          <ul className="menu menu-horizontal px-1">
-            <li tabIndex={0}>
-              <details>
-                <summary>USER</summary>
-                <ul className="p-2 w-48">
-                  <li>
-                    <Link to="/my-added-product">My Added Product</Link>
-                  </li>
-                  <li>
-                    <Link to="/add-food-item">Add a Food Item</Link>
-                  </li>
-                  <li>
-                    <Link to="/my-order-food-item">My Order Food Item</Link>
-                  </li>
-                </ul>
-              </details>
-            </li>
-            <li>
-              <Link to="/login">Login</Link>
-            </li>
-          </ul>
+          {user ? (
+            <>
+              <ul className="menu menu-horizontal px-1   items-center justify-center">
+                <li tabIndex={0}>
+                  <details>
+                    <summary>
+                      <label
+                        tabIndex={0}
+                        className="btn btn-ghost  btn-circle avatar"
+                      >
+                        <div className="w-10 rounded-full">
+                          <img src={displayPhotoURL} alt={displayName} />
+                        </div>
+                      </label>
+                      <p className="hidden md:grid">{displayName}</p>
+                    </summary>
+                    <ul className="p-2 w-48 bg-gray-950">
+                      <li>
+                        <Link to="/my-added-product">My Added Product</Link>
+                      </li>
+                      <li>
+                        <Link to="/add-food-item">Add a Food Item</Link>
+                      </li>
+                      <li>
+                        <Link to="/my-order-food-item">My Order Food Item</Link>
+                      </li>
+                    </ul>
+                  </details>
+                </li>
+
+                <li>
+                  <button onClick={handleSignOut}>Log Out</button>
+                </li>
+              </ul>
+            </>
+          ) : (
+            <>
+              <ul className="menu menu-horizontal px-1">
+                <li>
+                  <Link to="/login">Login</Link>
+                </li>{" "}
+              </ul>
+            </>
+          )}
         </div>
       </div>
     </div>
