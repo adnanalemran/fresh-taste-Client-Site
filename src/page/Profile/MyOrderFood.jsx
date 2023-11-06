@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
-import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../providers/AuthProvider";
+import axios from "axios";
 
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
@@ -59,18 +59,16 @@ const MyOrderFood = () => {
   const email = user?.email;
   const [food, setFood] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    fetch(`http://localhost:5000/filtered-foods?email=${email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setFood(data);
-        setIsLoading(false); // Set loading to false when data is available
-      })
-      .catch((error) => {
-        setIsLoading(false); // Set loading to false on error
-        console.error("Error fetching filtered data: ", error);
+    axios
+      .get(`http://localhost:5000/filtered-foods?email=${email}`,{withCredentials:true})
+      .then((response) => {
+        setFood(response.data);
+        setIsLoading(false);
       });
   }, [email]);
+  
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",

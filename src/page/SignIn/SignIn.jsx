@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
+import axios from "axios";
 
 const showSuccessAlert = () => {
   Swal.fire({
@@ -21,9 +21,6 @@ const showErrorAlert = (error) => {
   });
 };
 
-
-
-
 const SignIn = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -39,11 +36,25 @@ const SignIn = () => {
     console.log(email, password);
     signIn(email, password)
       .then((result) => {
-        console.log(result);
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email };
+   
         showSuccessAlert();
 
-        navigate(location?.state ? location?.state : "/");
+        axios
+          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((response) => {
+            if(response.data.success){
+              navigate(location?.state ? location.state : "/");
+            }
+            
+          })
+          .catch((error) => {
+            console.error("API request error:", error);
+          });
       })
+
       .catch((error) => {
         console.log(error);
         if (error.code === "auth/invalid-login-credentials") {
@@ -57,30 +68,42 @@ const SignIn = () => {
   const HandleGoogleLogin = () => {
     googleSignIn()
       .then((result) => {
-        console.log(result);
-
+        const loggedInUser = result.user;
+        console.log(loggedInUser);
+        const user = { email: loggedInUser.email };  
+ 
+        
         showSuccessAlert();
-        navigate(location?.state ? location.state : "/");
+  
+        axios
+          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .then((response) => {
+            if(response.data.success){
+              navigate(location?.state ? location.state : "/");
+            }
+          })
+          .catch((error) => {
+            console.error("API request error:", error);
+          });
       })
       .catch((error) => {
         console.log(error);
         showErrorAlert(error);
       });
   };
-
   return (
     <div className="flex ">
       <div className="w-1/2 flex">
         <div className="w-full">
-          <img src="https://i.ibb.co/0tCQXTF/479473ee35eff3744b072724e7a70e7a.png" alt="" />
+          <img
+            src="https://i.ibb.co/0tCQXTF/479473ee35eff3744b072724e7a70e7a.png"
+            alt=""
+          />
         </div>
       </div>
       <div className="w-1/2 mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 dark:bg-gray-900 dark:text-gray-200">
         <h1 className="text-2xl font-bold text-center pb-2">Sign In</h1>
-        <form
-          className="space-y-6"
-          onSubmit={handleLogin}
-        >
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div className="space-y-1 text-sm">
             <label className="block dark:text-gray-400">Email</label>
             <input

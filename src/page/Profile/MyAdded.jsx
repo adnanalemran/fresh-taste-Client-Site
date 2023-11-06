@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
@@ -68,16 +69,21 @@ const MyAdded = () => {
   const [food, setFood] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // useEffect(() => {
+  //   fetch(`http://localhost:5000/filtered-added-foods?email=${email}`)
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setFood(data);
+  //       setIsLoading(false);
+  //     });
+  // }, [email]);
+
   useEffect(() => {
-    fetch(`http://localhost:5000/filtered-added-foods?email=${email}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setFood(data);
+    axios
+      .get(`http://localhost:5000/filtered-added-foods?email=${email}`,{withCredentials:true})
+      .then((response) => {
+        setFood(response.data);
         setIsLoading(false);
-      })
-      .catch((error) => {
-        setIsLoading(false);
-        console.error("Error fetching filtered data: ", error);
       });
   }, [email]);
 
