@@ -12,6 +12,7 @@ import FoodDetails from "../page/Food/FoodDetails";
 import OrderPage from "../page/Food/OrderPage";
 import MyOrderFood from "../page/Profile/MyOrderFood";
 import MyAdded from "../page/Profile/MyAdded";
+import UpdateFood from "../page/Food/UpdateFood";
 
 const router = createBrowserRouter([
   {
@@ -84,6 +85,22 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/food/update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateFood />
+          </PrivateRoute>
+        ),
+        loader: async ({ params }) => {
+          const response = await fetch(`http://localhost:5000/food/${params.id}`);
+          if (!response.ok) {
+            throw new Error("Failed to fetch food data for updating");
+          }
+          const data = await response.json();
+          return data;
+        },
+      }
     ],
   },
 ]);
