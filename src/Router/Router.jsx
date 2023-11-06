@@ -26,11 +26,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/addFood",
-        element: <AddFood />,
+        element: (
+          <PrivateRoute>
+            <AddFood />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/all-food",
         element: <AllFoodItems />,
+        loader: () => fetch("http://localhost:5000/foodCount"),
       },
       {
         path: "/login",
@@ -93,14 +98,16 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: async ({ params }) => {
-          const response = await fetch(`http://localhost:5000/food/${params.id}`);
+          const response = await fetch(
+            `http://localhost:5000/food/${params.id}`
+          );
           if (!response.ok) {
             throw new Error("Failed to fetch food data for updating");
           }
           const data = await response.json();
           return data;
         },
-      }
+      },
     ],
   },
 ]);

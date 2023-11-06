@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useLoaderData } from "react-router-dom";
+import "./styles.css";
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
   return (
@@ -38,17 +38,35 @@ const SkeletonLoader = () => {
 
 const AllFoodItems = () => {
   const [food, setFood] = useState([]);
+  const { count } = useLoaderData();
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const numberOfPages = parseInt(Math.ceil(count / itemsPerPage));
+  const [currentPage, setCurrentPage] = useState(0); // Define currentPage here
 
   useEffect(() => {
-    fetch("http://localhost:5000/food")
-      .then((response) => response.json())
-      .then((data) => setFood(data))
-      .catch((error) => console.error("Error fetching foodItem data: ", error));
-  }, []);
+    fetch(`http://localhost:5000/food?page=${currentPage}&size=${itemsPerPage}`)
+      .then((res) => res.json())
+      .then((data) => setFood(data));
+  }, [currentPage]);
+
+  const pages = [...Array(numberOfPages).keys()];
+
+  const handlePrevPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < numberOfPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
 
   return (
     <div className="py-16  md:w-[768px] lg:w-[1280px]  mx-auto  ">
-      <p className="text-center py-4 "> All Food Items: {food.length}</p>
+      <p className="text-center py-4 "> Our Total Items: {count}</p>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
         {food.length === 0 ? (
           // Render the SkeletonLoader when data is being fetched
@@ -87,10 +105,60 @@ const AllFoodItems = () => {
                 </div>
               </div>
             </div>
-
-       
           ))
         )}
+      </div>
+
+      <div className="flex justify-center space-x-1 pagination ">
+        <button
+          onClick={handlePrevPage}
+          title="previous"
+          type="button"
+          className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-gray-900 dark:border-gray-800"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-4"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        {pages.map((page) => (
+          <button
+            onClick={() => setCurrentPage(page)}
+            key={pages}
+            type="button"
+            title="Page 1"
+            className={currentPage === page ? "selected" : undefined}
+          >
+            {page}
+          </button>
+        ))}
+
+        <button
+          onClick={handleNextPage}
+          title="next"
+          type="button"
+          className="inline-flex items-center justify-center w-8 h-8 py-0 border rounded-md shadow-md dark:bg-gray-900 dark:border-gray-800"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            fill="none"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="w-4"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
     </div>
   );
