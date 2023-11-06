@@ -63,10 +63,8 @@ const AllFoodItems = () => {
     }
   };
 
-
   return (
-    <div className="py-16  md:w-[768px] lg:w-[1280px]  mx-auto  ">
-      <p className="text-center py-4 "> Our Total Items: {count}</p>
+    <div className="py-28  md:w-[768px] lg:w-[1280px]  mx-auto  ">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
         {food.length === 0 ? (
           // Render the SkeletonLoader when data is being fetched

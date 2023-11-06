@@ -66,12 +66,19 @@ const MyAdded = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const [food, setFood] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     fetch(`http://localhost:5000/filtered-added-foods?email=${email}`)
       .then((response) => response.json())
-      .then((data) => setFood(data))
-      .catch((error) => console.error("Error fetching filtered data: ", error));
+      .then((data) => {
+        setFood(data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.error("Error fetching filtered data: ", error);
+      });
   }, [email]);
 
   const handleDelete = (_id) => {
@@ -113,9 +120,14 @@ const MyAdded = () => {
 
   return (
     <div>
-      {food.length === 0 ? (
-        // Render the SkeletonLoader when data is being fetched
+      {isLoading ? (
         <SkeletonLoader />
+      ) : food.length === 0 ? (
+        <div className="flex flex-col max-w-6xl p-6 space-y-4 sm:p-10 bg-[#000000b9] rounded-xl m-4">
+          <h2 className="text-2xl font-semibold text-center">
+            You have not added any food
+          </h2>
+        </div>
       ) : (
         <div className="flex flex-col max-w-6xl p-6 space-y-4 sm:p-10 bg-[#000000b9] rounded-xl m-4">
           <h2 className="text-2xl font-semibold text-center">

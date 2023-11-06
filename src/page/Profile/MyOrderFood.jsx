@@ -12,41 +12,43 @@ const SkeletonLoader = () => {
       </h1>
       <hr />
       <ul className="flex flex-col divide-y divide-gray-700">
-        {Array(5).fill().map((_, index) => (
-          <li
-            key={index}
-            className="flex flex-col py-6 sm:flex-row sm:justify-between"
-          >
-            <div className="flex w-full space-x-2 sm:space-x-4">
-              <div className="flex-shrink-0 w-36 h-36 bg-base-300 animate-pulse rounded-lg"></div>
-              <div className="flex flex-col justify-between w-full pb-4">
-                <div className="flex justify-between w-full pb-2 space-x-2">
-                  <div className="space-y-1">
-                    <h3 className="text-lg font-semibold leading bg-base-300 animate-pulse">
-                      Loading...
-                    </h3>
-                    <p className="text-sm  bg-base-300 animate-pulse">
-                      Loading...
-                    </p>
-                    <p className="text-lg font-semibold bg-base-300 animate-pulse">
-                      Loading...
-                    </p>
+        {Array(5)
+          .fill()
+          .map((_, index) => (
+            <li
+              key={index}
+              className="flex flex-col py-6 sm:flex-row sm:justify-between"
+            >
+              <div className="flex w-full space-x-2 sm:space-x-4">
+                <div className="flex-shrink-0 w-36 h-36 bg-base-300 animate-pulse rounded-lg"></div>
+                <div className="flex flex-col justify-between w-full pb-4">
+                  <div className="flex justify-between w-full pb-2 space-x-2">
+                    <div className="space-y-1">
+                      <h3 className="text-lg font-semibold leading bg-base-300 animate-pulse">
+                        Loading...
+                      </h3>
+                      <p className="text-sm  bg-base-300 animate-pulse">
+                        Loading...
+                      </p>
+                      <p className="text-lg font-semibold bg-base-300 animate-pulse">
+                        Loading...
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-lg font-semibold bg-base-300 animate-pulse">
+                        Loading...
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-lg font-semibold bg-base-300 animate-pulse">
-                      Loading...
-                    </p>
+                  <div className="flex text-sm divide-x justify-end">
+                    <button className="flex items-center px-2 py-1 pl-0 space-x-1 bg-base-300 animate-pulse">
+                      <span>Loading...</span>
+                    </button>
                   </div>
-                </div>
-                <div className="flex text-sm divide-x justify-end">
-                  <button className="flex items-center px-2 py-1 pl-0 space-x-1 bg-base-300 animate-pulse">
-                    <span>Loading...</span>
-                  </button>
                 </div>
               </div>
-            </div>
-          </li>
-        ))}
+            </li>
+          ))}
       </ul>
     </div>
   );
@@ -56,14 +58,19 @@ const MyOrderFood = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const [food, setFood] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetch(`http://localhost:5000/filtered-foods?email=${email}`)
       .then((response) => response.json())
-      .then((data) => setFood(data))
-      .catch((error) => console.error("Error fetching filtered data: ", error));
+      .then((data) => {
+        setFood(data);
+        setIsLoading(false); // Set loading to false when data is available
+      })
+      .catch((error) => {
+        setIsLoading(false); // Set loading to false on error
+        console.error("Error fetching filtered data: ", error);
+      });
   }, [email]);
-
   const handleDelete = (_id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -101,12 +108,19 @@ const MyOrderFood = () => {
 
   return (
     <div>
-      {food.length === 0 ? (
-        // Render the SkeletonLoader when data is being fetched
+      {isLoading ? ( // Display the SkeletonLoader while loading
         <SkeletonLoader />
+      ) : food.length === 0 ? (
+        <div className="flex flex-col max-w-6xl p-6 space-y-4 sm:p-10 bg-[#000000b9] rounded-xl m-4">
+          <h1 className="text-2xl font-semibold text-center">
+            You have not ordered food
+          </h1>
+        </div>
       ) : (
         <div className="flex flex-col max-w-6xl p-6 space-y-4 sm:p-10 bg-[#000000b9] rounded-xl m-4">
-          <h1 className="text-2xl font-semibold text-center">My Ordered Food</h1>
+          <h1 className="text-2xl font-semibold text-center">
+            My Ordered Food
+          </h1>
           <hr />
           <ul className="flex flex-col divide-y divide-gray-700">
             {food.map((item) => (
