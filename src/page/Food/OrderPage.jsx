@@ -90,23 +90,6 @@ const OrderPage = () => {
                 navigate(location?.state ? location.state : "/my-order-food-item");
               }
             });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           })
           .catch((error) => {
             console.log(error);
