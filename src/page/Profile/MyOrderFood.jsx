@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 import axios from "axios";
-
+   
+import {Helmet} from "react-helmet";
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
   return (
@@ -106,6 +107,9 @@ const MyOrderFood = () => {
 
   return (
     <div>
+         <Helmet>
+        <title>FreshTaste || My order page</title>
+      </Helmet>
       {isLoading ? ( // Display the SkeletonLoader while loading
         <SkeletonLoader />
       ) : food.length === 0 ? (

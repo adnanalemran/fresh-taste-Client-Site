@@ -2,12 +2,15 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-
+   
+import {Helmet} from "react-helmet";
 const OrderPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [food, setFood] = useState({});
-  const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString());
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toLocaleDateString()
+  );
   const [errorMessage, setErrorMessage] = useState(""); // New state variable
   const { id } = useParams();
   const { user } = useContext(AuthContext);
@@ -47,18 +50,21 @@ const OrderPage = () => {
     try {
       if (food?.Quantity <= 0) {
         setErrorMessage("This item is stock out ");
-        return
-      }  else if (food.email === email) {
+        return;
+      } else if (food.email === email) {
         setErrorMessage("You can't purchase your own added food items.");
-        return
+        return;
       } else {
-        const response = await fetch(`http://localhost:5000/food/update/${id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updateStock),
-        });
+        const response = await fetch(
+          `http://localhost:5000/food/update/${id}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updateStock),
+          }
+        );
 
         if (response.ok) {
           const buyItem = {
@@ -110,9 +116,12 @@ const OrderPage = () => {
 
   return (
     <div className="my-16">
+         <Helmet>
+        <title>FreshTaste || Order page</title>
+      </Helmet>
       <div className="flex flex-col max-w-lg p-6 space-y-4 divide-y mx-auto">
         <h2 className="text-3xl font-semibold">Order items</h2>
-        
+
         <ul className="flex flex-col pt-4 space-y-2">
           <li className="flex items-start justify-between">
             <div className="text-xl">Item Name :</div>

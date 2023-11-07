@@ -1,6 +1,6 @@
 import Swal from "sweetalert2";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
-
+import {Helmet} from "react-helmet";
 const UpdateFood = () => {
   const singleData = useLoaderData();
   const location = useLocation();
@@ -59,6 +59,9 @@ const UpdateFood = () => {
 
   return (
     <div className="w-11/12 mx-auto max-w-4xl p-8 space-y-3 rounded-xl m-5 bg-base-300">
+         <Helmet>
+        <title>FreshTaste || Update food page</title>
+      </Helmet>
       <div className="hero-overlay bg-opacity-20"></div>
       <h1 className="text-2xl font-bold text-center">update a Food</h1>
       <form className="space-y-6" onSubmit={(e) => handleSubmit(e)}>

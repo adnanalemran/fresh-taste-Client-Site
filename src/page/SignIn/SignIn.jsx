@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
+import {Helmet} from "react-helmet";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
 import axios from "axios";
@@ -93,6 +93,9 @@ const SignIn = () => {
   };
   return (
     <div className="flex ">
+        <Helmet>
+        <title>FreshTaste || Login page</title>
+      </Helmet>
       <div className="w-1/2 flex">
         <div className="w-full">
           <img

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
+import { Helmet } from "react-helmet";
 const FoodDetails = () => {
   const [food, setFood] = useState({});
   const { id } = useParams();
@@ -18,6 +19,9 @@ const FoodDetails = () => {
 
   return (
     <div className="my-32">
+      <Helmet>
+        <title>FreshTaste || Food details page</title>
+      </Helmet>
       <div className="card lg:card-side bg-base-300 shadow-xl">
         <figure className="w-full md:w-1/3 p-8">
           <img className=" rounded-xl mx-auto" src={food?.image} alt="Album" />

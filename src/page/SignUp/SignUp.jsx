@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
-
+import {Helmet} from "react-helmet";
 function validatePassword(password) {
   if (
     password.length < 6 ||
@@ -102,6 +102,9 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-row-reverse">
+         <Helmet>
+        <title>FreshTaste || Sign Up page</title>
+      </Helmet>
       <div className="w-1/2">
         <div className="w-full">
           <img

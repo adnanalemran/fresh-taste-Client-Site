@@ -3,7 +3,7 @@ import { AuthContext } from "../../providers/AuthProvider";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import axios from "axios";
-
+import {Helmet} from "react-helmet";
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
   return (
@@ -118,6 +118,9 @@ const MyAdded = () => {
 
   return (
     <div>
+         <Helmet>
+        <title>FreshTaste || My added page</title>
+      </Helmet>
       {isLoading ? (
         <SkeletonLoader />
       ) : food.length === 0 ? (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-
+ 
+import {Helmet} from "react-helmet";
 const Blog = () => {
   const [blog, setBlog] = useState([]);
 
@@ -12,6 +13,9 @@ const Blog = () => {
 
   return (
     <section className="dark:bg-gray-800 dark:text-gray-100">
+         <Helmet>
+        <title>FreshTaste || Blog page</title>
+      </Helmet>
       <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
         <a
           rel="noopener noreferrer"
