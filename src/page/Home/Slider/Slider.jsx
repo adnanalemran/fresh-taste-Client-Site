@@ -3,17 +3,20 @@ import { Link } from "react-router-dom";
 
 const Slider = () => {
   return (
-    <div className="carousel w-full pt-24 ">
+    <div className="carousel w-full pt-24 overflow-hidden">
       <div id="slide1" className="carousel-item relative w-full">
         <div className="hero min-h-screen  ">
-          <div className="hero-content flex-col lg:flex-row  lg:gap-16 px-32">
-            <img
+          <div className="hero-content flex-col lg:flex-row  lg:gap-16 lg:m-20 ">
+            <div className=""data-aos="fade-right">
+                   <img
               src="https://www.freepnglogos.com/uploads/food-png/food-grass-fed-beef-foodservice-products-grass-run-farms-4.png"
-              className="max-w-xl "
+              className="lg:max-w-xl  "
             />
-            <div>
-              <h1 className="text-5xl font-bold">Escape the ordinary</h1>
-              <p className="py-12">
+            </div>
+       
+            <div data-aos="fade-left">
+              <h1 className="text-2xl lg:text-5xl font-bold">Escape the ordinary</h1>
+              <p className="text-sm w-full py-12">
                 Water St. Café offers classic Italian cuisine with influence
                 from our beautiful West Coast, an award-winning BC-focused wine
                 & beverage list, and nightly live music.
@@ -39,10 +42,10 @@ const Slider = () => {
 
       <div id="slide2" className="carousel-item relative w-full">
         <div className="hero min-h-screen  text-center ">
-          <div className="hero-content flex-col   m-20 lg:gap-16">
+          <div className="hero-content flex-col   lg:m-20 lg:gap-16 ">
             <img
               src="https://www.pngall.com/wp-content/uploads/5/Serving-Food-PNG-Image-HD.png"
-              className="max-w-xl "
+              className="lg:max-w-xl "
             />
             <div>
               <div className="flex justify-center pb-2">
@@ -76,10 +79,10 @@ const Slider = () => {
 
       <div id="slide3" className="carousel-item relative w-full">
         <div className="hero min-h-screen  text-center ">
-          <div className="hero-content flex-col   m-20 lg:gap-16">
+          <div className="hero-content flex-col   lg:m-20 lg:gap-16">
             <img
               src="https://www.freepnglogos.com/uploads/food-png/food-koconut-grove-24.png"
-              className="max-w-xl "
+              className="lg:max-w-xl"
             />
             <div>
               <div className="flex justify-center pb-2">

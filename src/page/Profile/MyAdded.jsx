@@ -69,14 +69,6 @@ const MyAdded = () => {
   const [food, setFood] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // useEffect(() => {
-  //   fetch(`http://localhost:5000/filtered-added-foods?email=${email}`)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setFood(data);
-  //       setIsLoading(false);
-  //     });
-  // }, [email]);
 
   useEffect(() => {
     axios

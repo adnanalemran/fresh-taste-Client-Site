@@ -13,6 +13,7 @@ import OrderPage from "../page/Food/OrderPage";
 import MyOrderFood from "../page/Profile/MyOrderFood";
 import MyAdded from "../page/Profile/MyAdded";
 import UpdateFood from "../page/Food/UpdateFood";
+import Blog from "../page/Blog/Blog";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "/signUp",
         element: <SignUp />,
+      },
+      {
+        path: "/blog",
+        element: <Blog/>,
       },
       {
         path: "/add-food-item",
