@@ -1,11 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
 
 const OrderPage = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [food, setFood] = useState({});
   const [currentDate, setCurrentDate] = useState(
     new Date().toLocaleDateString()
@@ -14,7 +12,7 @@ const OrderPage = () => {
   const { user } = useContext(AuthContext);
   const displayName = user?.displayName || "Person";
   const email = user?.email;
-
+  const [showAlert, setShowAlert] = useState(false);
 
   const showSuccessAlert = () => {
     Swal.fire({
@@ -36,82 +34,26 @@ const OrderPage = () => {
     const updateStock = {
       orderCount: food?.orderCount + 1,
       Quantity: food?.Quantity - 1,
-      name: food?.name,
-      image: food?.image,
-      Category: food?.Category,
-      chiefNames: food?.chiefNames,
-      foodOrigin: food?.foodOrigin,
-      price: food?.price,
-      shortDescription: food?.shortDescription,
     };
 
     console.log(updateStock);
 
     try {
-      const response = await fetch(`http://localhost:5000/food/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateStock),
-      });
-
-      if (response.ok) {
-        const buyItem = {
-          food: food,
-          email: email,
-        };
-        fetch("http://localhost:5000/buy", {
-          method: "POST",
+      // Replace `singleData._id` with the correct identifier for your item
+      const response = await fetch(
+        `http://localhost:5000/food/update/${id}`,
+        {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(buyItem),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-             
-           
-            Swal.fire({
-              title: "Your product has been successfully ordered",
-           
-              icon: "success",
-              showCancelButton: true,
-              confirmButtonColor: "#239342",
-              cancelButtonColor: "#FBC525",
-              confirmButtonText: "i want more ",
-              cancelButtonText:"see my order"
+          body: JSON.stringify(updateStock),
+        }
+      );
 
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate(location?.state ? location.state : "/all-food");
-              }
-              else{
-                navigate(location?.state ? location.state : "/my-order-food-item");
-              }
-            });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          })
-          .catch((error) => {
-            console.log(error);
-            showErrorAlert(error.message);
-          });
+      if (response.ok) {
+        // Handle a successful response here
+        showSuccessAlert();
       } else {
         // Handle errors here
         const data = await response.json();
@@ -128,14 +70,17 @@ const OrderPage = () => {
     if (id) {
       fetch(`http://localhost:5000/food/${id}`)
         .then((response) => response.json())
-        .then((data) => setFood(data))
+        .then((data) => {
+          console.log("API Response:", data);  
+          setFood(data);
+        })
         .catch((error) =>
           console.error("Error fetching product data: ", error)
         );
     }
   }, [id]);
 
-  const isProductOwnedByUser = food?.AddedBy === email;
+  // const isProductOwnedByUser = food?.AddedBy === email;
 
   return (
     <div className="my-16">
@@ -145,7 +90,7 @@ const OrderPage = () => {
           <li className="flex items-start justify-between">
             <div className="text-xl">Item Name :</div>
             <div className="text-right">
-              <span className="block text-xl">{food?.name}</span>
+              <span className="block text-xl">{food.name}</span>
             </div>
           </li>
           <li className="flex items-start justify-between">

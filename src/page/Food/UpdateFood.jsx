@@ -17,6 +17,7 @@ const UpdateFood = () => {
       foodOrigin: e.target.foodOrigin.value,
       price: e.target.price.value,
       shortDescription: e.target.shortDescription.value,
+      orderCount: singleData?.orderCount,
     };
 
     console.log(formData);

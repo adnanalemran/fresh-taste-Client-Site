@@ -16,7 +16,7 @@ const AddFood = () => {
     email: email,  
     chiefNames: "",
     foodOrigin: "",
-    orderCount: "0",
+    orderCount: 0,
   };
 
   const [formData, setFormData] = useState(initialFormData);
