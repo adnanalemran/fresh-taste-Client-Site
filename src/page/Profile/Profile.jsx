@@ -16,39 +16,26 @@ const Profile = () => {
       });
   }, [user?.uid]);
 
+  const handleUpdateProfile = (e) => {
+    e.preventDefault();
 
+    const formData = {
+      userOrderCount: e.target.userOrderCount.value,
+    };
 
-
-  
-
-  // const handleUpdateProfile = (e) => {
-  //   e.preventDefault();
-
-  //   const formData = {
-  //     displayName: e.target.displayName.value,
-  //     password: e.target.password.value,
-  //     email: e.target.email.value,
-  //     photoURL: e.target.photoURL.value,
-  //     userOrderCount: e.target.userOrderCount.value,
-  //   };
-  //   console.log(formData);
-
-  //   fetch(`http://localhost:5000/user/update/${dbuser?.uid}`, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(formData),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log(data);
-  //     });
-  // };
+    axios
+      .put(`http://localhost:5000/user/update/${user?.uid}`, formData)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.error("Error updating user data:", error);
+      });
+  };
 
   return (
     <div>
-      <div className="flex flex-col max-w-md p-6  mx-auto">
+      <div className="flex flex-col max-w-md p-6 mx-auto">
         <img
           src={dbuser?.photoURL || user?.photoURL}
           alt=""
@@ -59,54 +46,14 @@ const Profile = () => {
             {user?.displayName || dbuser?.displayName}
           </h2>
           <span className="block pb-2 text-sm dark:text-gray-400">
-            uid:{user.uid}
+            uid: {user?.uid}
           </span>
         </div>
       </div>
 
-      {/* <div className="w-full ">
+      <div className="w-full">
         <h2>Update profile </h2>
-        <form onSubmit={} className="w-1/2 mx-auto">
-          <div className="py-2">
-            <span className="text-xl font-bold capitalize">name : </span>
-            <input
-              name="displayName"
-              defaultValue={dbuser?.displayName}
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered input-accent w-full max-w-xs"
-            />
-          </div>
-          <div className="py-2">
-            <span className="text-xl font-bold capitalize">email : </span>
-            <input
-              name="email"
-              defaultValue={dbuser?.email}
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered input-accent w-full max-w-xs"
-            />
-          </div>
-          <div className="py-2">
-            <span className="text-xl font-bold capitalize">photoURL : </span>
-            <input
-              name="photoURL"
-              defaultValue={dbuser?.photoURL}
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered input-accent w-full max-w-xs"
-            />
-          </div>
-          <div className="py-2">
-            <span className="text-xl font-bold capitalize">password : </span>
-            <input
-              name="password"
-              defaultValue={dbuser?.password}
-              type="text"
-              placeholder="Type here"
-              className="input input-bordered input-accent w-full max-w-xs"
-            />
-          </div>
+        <form onSubmit={handleUpdateProfile} className="w-1/2 mx-auto">
           <div className="py-2">
             <span className="text-xl font-bold capitalize">
               userOrderCount :
@@ -123,7 +70,7 @@ const Profile = () => {
             Submit
           </button>
         </form>
-      </div> */}
+      </div>
     </div>
   );
 };

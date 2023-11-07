@@ -2,8 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-   
-import {Helmet} from "react-helmet";
+
+import { Helmet } from "react-helmet";
+import axios from "axios";
 const OrderPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -11,11 +12,25 @@ const OrderPage = () => {
   const [currentDate, setCurrentDate] = useState(
     new Date().toLocaleDateString()
   );
-  const [errorMessage, setErrorMessage] = useState(""); // New state variable
+  const [errorMessage, setErrorMessage] = useState("");
   const { id } = useParams();
   const { user } = useContext(AuthContext);
-  const displayName = user?.displayName || "Person";
+
   const email = user?.email;
+
+  const [dbuser, setDbuser] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/user/${user?.uid}`)
+      .then((res) => {
+        setDbuser(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [user?.uid]);
+
+  const displayName = user?.displayName || dbuser?.displayName;
 
   const showSuccessAlert = () => {
     Swal.fire({
@@ -33,6 +48,8 @@ const OrderPage = () => {
     });
   };
 
+
+
   const handleBuy = async () => {
     const updateStock = {
       orderCount: food.orderCount + 1,
@@ -44,15 +61,21 @@ const OrderPage = () => {
       foodOrigin: food.foodOrigin,
       price: food.price,
       shortDescription: food.shortDescription,
-      AddedBy: food.AddedBy, // Make sure to copy AddedBy
+      AddedBy: food.AddedBy,
     };
 
+
+
+    
     try {
       if (food?.Quantity <= 0) {
         setErrorMessage("This item is stock out ");
         return;
       } else if (food.email === email) {
         setErrorMessage("You can't purchase your own added food items.");
+        return;
+      }  else if (dbuser?.userOrderCount >= 20) {
+        setErrorMessage("A user cannot buy more than 20 food items");
         return;
       } else {
         const response = await fetch(
@@ -71,6 +94,24 @@ const OrderPage = () => {
             food: food,
             email: email,
           };
+          const updateOrderCount = dbuser?.userOrderCount + 1;
+
+          const formData = {
+            userOrderCount: updateOrderCount,
+          };
+        console.log(formData)
+          axios
+            .put(`http://localhost:5000/user/update/${user?.uid}`, formData)
+            .then((res) => {
+              console.log(res.data);
+            })
+            .catch((error) => {
+              console.error("Error updating user data:", error);
+            });
+
+
+
+
           fetch("http://localhost:5000/buy", {
             method: "POST",
             headers: {
@@ -116,7 +157,7 @@ const OrderPage = () => {
 
   return (
     <div className="my-16">
-         <Helmet>
+      <Helmet>
         <title>FreshTaste || Order page</title>
       </Helmet>
       <div className="flex flex-col max-w-lg p-6 space-y-4 divide-y mx-auto">
@@ -150,13 +191,17 @@ const OrderPage = () => {
         </ul>
         <div className="pt-4 space-y-2">
           <div className="flex justify-between">
-            <span>who food added (Email) : </span>
+            <span>who added (Email) : </span>
             <span> {food?.email} </span>
           </div>
           <div>
             <div className="flex justify-between">
               <span>Buyer name : </span>
               <span> {displayName}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Buyer total buy : </span>
+              <span> {dbuser?.userOrderCount}</span>
             </div>
             <div className="flex justify-between">
               <span>Buyer Email : </span>
