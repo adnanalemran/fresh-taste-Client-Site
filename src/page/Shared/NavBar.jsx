@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const showSuccessAlert = () => {
   Swal.fire({
@@ -13,10 +14,22 @@ const showSuccessAlert = () => {
 
 const NavBar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const displayName = user?.displayName || "Person";
-  const displayPhotoURL =
-    user?.photoURL ||
-    "https://i.ibb.co/cbLWFkM/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png";
+
+  const [dbuser, setDbuser] = useState(null);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/user/${user?.uid}`)
+      .then((res) => {
+        setDbuser(res.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, [user?.uid]);
+
+
+  const displayName = user?.displayName || dbuser?.displayName;
+  const displayPhotoURL =dbuser?.photoURL || user?.photoURL;
 
   const handleSignOut = async () => {
     try {

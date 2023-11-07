@@ -7,14 +7,12 @@ const OrderPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [food, setFood] = useState({});
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toLocaleDateString()
-  );
+  const [currentDate, setCurrentDate] = useState(new Date().toLocaleDateString());
+  const [errorMessage, setErrorMessage] = useState(""); // New state variable
   const { id } = useParams();
   const { user } = useContext(AuthContext);
   const displayName = user?.displayName || "Person";
   const email = user?.email;
-
 
   const showSuccessAlert = () => {
     Swal.fire({
@@ -34,72 +32,64 @@ const OrderPage = () => {
 
   const handleBuy = async () => {
     const updateStock = {
-      orderCount: food?.orderCount + 1,
-      Quantity: food?.Quantity - 1,
-      name: food?.name,
-      image: food?.image,
-      Category: food?.Category,
-      chiefNames: food?.chiefNames,
-      foodOrigin: food?.foodOrigin,
-      price: food?.price,
-      shortDescription: food?.shortDescription,
+      orderCount: food.orderCount + 1,
+      Quantity: food.Quantity - 1,
+      name: food.name,
+      image: food.image,
+      Category: food.Category,
+      chiefNames: food.chiefNames,
+      foodOrigin: food.foodOrigin,
+      price: food.price,
+      shortDescription: food.shortDescription,
+      AddedBy: food.AddedBy, // Make sure to copy AddedBy
     };
 
-    console.log(updateStock);
-
     try {
-      const response = await fetch(`http://localhost:5000/food/update/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updateStock),
-      });
-
-      if (response.ok) {
-        const buyItem = {
-          food: food,
-          email: email,
-        };
-        fetch("http://localhost:5000/buy", {
-          method: "POST",
+      if (food?.Quantity <= 0) {
+        setErrorMessage("This item is stock out ");
+        return
+      }  else if (food.email === email) {
+        setErrorMessage("You can't purchase your own added food items.");
+        return
+      } else {
+        const response = await fetch(`http://localhost:5000/food/update/${id}`, {
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(buyItem),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-             
-           
-            Swal.fire({
-              title: "Your product has been successfully ordered",
-           
-              icon: "success",
-              showCancelButton: true,
-              confirmButtonColor: "#239342",
-              cancelButtonColor: "#FBC525",
-              confirmButtonText: "i want more ",
-              cancelButtonText:"see my order"
+          body: JSON.stringify(updateStock),
+        });
 
-            }).then((result) => {
-              if (result.isConfirmed) {
-                navigate(location?.state ? location.state : "/all-food");
-              }
-              else{
-                navigate(location?.state ? location.state : "/my-order-food-item");
-              }
-            });
+        if (response.ok) {
+          const buyItem = {
+            food: food,
+            email: email,
+          };
+          fetch("http://localhost:5000/buy", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(buyItem),
           })
-          .catch((error) => {
-            console.log(error);
-            showErrorAlert(error.message);
-          });
-      } else {
-        // Handle errors here
-        const data = await response.json();
-        console.log(data);
-        showErrorAlert(data.error);
+            .then((res) => res.json())
+            .then(() => {
+              showSuccessAlert();
+              // Navigate after success
+              if (location?.state) {
+                navigate(location.state);
+              } else {
+                navigate("/all-food");
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+              showErrorAlert(error.message);
+            });
+        } else {
+          const data = await response.json();
+          showErrorAlert(data.error);
+        }
       }
     } catch (error) {
       console.error(error);
@@ -118,12 +108,11 @@ const OrderPage = () => {
     }
   }, [id]);
 
-  const isProductOwnedByUser = food?.AddedBy === email;
-
   return (
     <div className="my-16">
       <div className="flex flex-col max-w-lg p-6 space-y-4 divide-y mx-auto">
         <h2 className="text-3xl font-semibold">Order items</h2>
+        
         <ul className="flex flex-col pt-4 space-y-2">
           <li className="flex items-start justify-between">
             <div className="text-xl">Item Name :</div>
@@ -152,7 +141,7 @@ const OrderPage = () => {
         </ul>
         <div className="pt-4 space-y-2">
           <div className="flex justify-between">
-            <span>Buyer Email : </span>
+            <span>who food added (Email) : </span>
             <span> {food?.email} </span>
           </div>
           <div>
@@ -176,7 +165,9 @@ const OrderPage = () => {
               <span>Payable</span>
               <span className="font-semibold">${food?.price}</span>
             </div>
-
+            {errorMessage && (
+              <p className="text-red-500 font-semibold">{errorMessage}</p>
+            )}
             <button
               onClick={handleBuy}
               type="button"
