@@ -22,9 +22,10 @@ const Slider = () => {
                 & beverage list, and nightly live music.
               </p>
               <div className="flex justify-end py-4">
-                <button className="btn btn-warning ">
+                <a href="#top-6">  <button className="btn btn-warning ">
                   Discover our top food
-                </button>
+                </button></a>
+              
               </div>
             </div>
           </div>

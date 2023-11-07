@@ -1,6 +1,6 @@
-import Swal from "sweetalert2";
+import { Helmet } from "react-helmet";
 import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
-import {Helmet} from "react-helmet";
+import Swal from "sweetalert2";
 const UpdateFood = () => {
   const singleData = useLoaderData();
   const location = useLocation();
@@ -23,7 +23,7 @@ const UpdateFood = () => {
     console.log(formData);
     try {
       const response = await fetch(
-        `http://localhost:5000/food/update/${singleData._id}`,
+        `https://b8a11-server-side-adnanalemran.vercel.app/food/update/${singleData._id}`,
         {
           method: "PUT",
           headers: {

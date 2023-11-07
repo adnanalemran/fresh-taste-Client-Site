@@ -1,8 +1,8 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
 import Swal from "sweetalert2";
-import axios from "axios";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const showSuccessAlert = () => {
   Swal.fire({
@@ -18,7 +18,7 @@ const NavBar = () => {
   const [dbuser, setDbuser] = useState(null);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/user/${user?.uid}`)
+      .get(`https://b8a11-server-side-adnanalemran.vercel.app/user/${user?.uid}`)
       .then((res) => {
         setDbuser(res.data);
       })
@@ -105,7 +105,7 @@ const NavBar = () => {
         <div className="navbar-end lg:flex">
           {user ? (
             <>
-              <ul className="menu menu-horizontal px-1   items-center justify-center">
+              <ul className="menu menu-horizontal px-1 flex  items-center justify-center">
                 <li tabIndex={0}>
 
 
@@ -136,7 +136,6 @@ const NavBar = () => {
                     </ul>
                   </details>
                 </li>
-
                 <li>
                   <button onClick={handleSignOut}>Log Out</button>
                 </li>
@@ -147,7 +146,7 @@ const NavBar = () => {
               <ul className="menu menu-horizontal px-1">
                 <li>
                   <Link to="/login">Login</Link>
-                </li>{" "}
+                </li>
               </ul>
             </>
           )}

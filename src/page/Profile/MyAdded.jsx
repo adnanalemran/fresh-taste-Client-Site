@@ -1,9 +1,9 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../providers/AuthProvider";
+import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axios from "axios";
-import {Helmet} from "react-helmet";
+import { AuthContext } from "../../providers/AuthProvider";
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
   return (
@@ -72,7 +72,7 @@ const MyAdded = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/filtered-added-foods?email=${email}`,{withCredentials:true})
+      .get(`https://b8a11-server-side-adnanalemran.vercel.app/filtered-added-foods?email=${email}`,{withCredentials:true})
       .then((response) => {
         setFood(response.data);
         setIsLoading(false);
@@ -91,7 +91,7 @@ const MyAdded = () => {
     }).then((result) => {
       console.log(_id);
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/food/${_id}`, {
+        fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

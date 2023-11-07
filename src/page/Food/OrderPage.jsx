@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../providers/AuthProvider";
 
-import { Helmet } from "react-helmet";
 import axios from "axios";
+import { Helmet } from "react-helmet";
 const OrderPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const OrderPage = () => {
   const [dbuser, setDbuser] = useState(null);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/user/${user?.uid}`)
+      .get(`https://b8a11-server-side-adnanalemran.vercel.app/user/${user?.uid}`)
       .then((res) => {
         setDbuser(res.data);
       })
@@ -79,7 +79,7 @@ const OrderPage = () => {
         return;
       } else {
         const response = await fetch(
-          `http://localhost:5000/food/update/${id}`,
+          `https://b8a11-server-side-adnanalemran.vercel.app/food/update/${id}`,
           {
             method: "PUT",
             headers: {
@@ -101,7 +101,7 @@ const OrderPage = () => {
           };
         console.log(formData)
           axios
-            .put(`http://localhost:5000/user/update/${user?.uid}`, formData)
+            .put(`https://b8a11-server-side-adnanalemran.vercel.app/user/update/${user?.uid}`, formData)
             .then((res) => {
               console.log(res.data);
             })
@@ -112,7 +112,7 @@ const OrderPage = () => {
 
 
 
-          fetch("http://localhost:5000/buy", {
+          fetch("https://b8a11-server-side-adnanalemran.vercel.app/buy", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -146,7 +146,7 @@ const OrderPage = () => {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/food/${id}`)
+      fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/${id}`)
         .then((response) => response.json())
         .then((data) => setFood(data))
         .catch((error) =>

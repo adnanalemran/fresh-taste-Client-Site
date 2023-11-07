@@ -8,7 +8,7 @@ const FoodDetails = () => {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/food/${id}`)
+      fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/${id}`)
         .then((response) => response.json())
         .then((data) => setFood(data))
         .catch((error) =>
@@ -26,7 +26,7 @@ const FoodDetails = () => {
         <figure className="w-full md:w-1/3 p-8">
           <img className=" rounded-xl mx-auto" src={food?.image} alt="Album" />
         </figure>
-        <div className="card-body w-2/3">
+        <div className="card-body w-full lg:w-2/3">
           <h2 className="card-title text-4xl py-4">{food?.name}</h2>
           <p>● Category: {food?.Category}</p>
           <p>● Quantity: {food?.Quantity}</p>

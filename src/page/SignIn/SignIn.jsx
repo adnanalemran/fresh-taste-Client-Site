@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import axios from "axios";
+import React, { useContext } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {Helmet} from "react-helmet";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
-import axios from "axios";
 
 const showSuccessAlert = () => {
   Swal.fire({
@@ -43,7 +43,7 @@ const SignIn = () => {
         showSuccessAlert();
 
         axios
-          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .post("https://b8a11-server-side-adnanalemran.vercel.app/jwt", user, { withCredentials: true })
           .then((response) => {
             if(response.data.success){
               navigate(location?.state ? location.state : "/");
@@ -76,7 +76,7 @@ const SignIn = () => {
         showSuccessAlert();
   
         axios
-          .post("http://localhost:5000/jwt", user, { withCredentials: true })
+          .post("https://b8a11-server-side-adnanalemran.vercel.app/jwt", user, { withCredentials: true })
           .then((response) => {
             if(response.data.success){
               navigate(location?.state ? location.state : "/");
@@ -96,7 +96,7 @@ const SignIn = () => {
         <Helmet>
         <title>FreshTaste || Login page</title>
       </Helmet>
-      <div className="w-1/2 flex">
+      <div className="w-1/2 hidden  lg:flex">
         <div className="w-full">
           <img
             src="https://i.ibb.co/0tCQXTF/479473ee35eff3744b072724e7a70e7a.png"
@@ -104,7 +104,7 @@ const SignIn = () => {
           />
         </div>
       </div>
-      <div className="w-1/2 mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 dark:bg-gray-900 dark:text-gray-200">
+      <div className="lg:w-1/2 w-full  mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 px-4">
         <h1 className="text-2xl font-bold text-center pb-2">Sign In</h1>
         <form className="space-y-6" onSubmit={handleLogin}>
           <div className="space-y-1 text-sm">

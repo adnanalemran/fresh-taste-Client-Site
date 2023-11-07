@@ -1,9 +1,9 @@
+import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
-import axios from "axios";
    
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
 // Define a SkeletonLoader component
 const SkeletonLoader = () => {
   return (
@@ -63,7 +63,7 @@ const MyOrderFood = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/filtered-foods?email=${email}`,{withCredentials:true})
+      .get(`https://b8a11-server-side-adnanalemran.vercel.app/filtered-foods?email=${email}`,{withCredentials:true})
       .then((response) => {
         setFood(response.data);
         setIsLoading(false);
@@ -81,7 +81,7 @@ const MyOrderFood = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/buy/${_id}`, {
+        fetch(`https://b8a11-server-side-adnanalemran.vercel.app/buy/${_id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useLoaderData } from "react-router-dom";
 import "./styles.css";
-import {Helmet} from "react-helmet";
 const SkeletonLoader = () => {
   return (
     <div className="md:w-[768px] lg:w-[1280px] mx-auto">
@@ -46,7 +46,7 @@ const AllFoodItems = () => {
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/food?page=${currentPage}&size=${itemsPerPage}`)
+    fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food?page=${currentPage}&size=${itemsPerPage}`)
       .then((res) => res.json())
       .then((data) => setFood(data));
   }, [currentPage]);
@@ -67,7 +67,7 @@ const AllFoodItems = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/food/search?search=${searchQuery}`)
+    fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/search?search=${searchQuery}`)
       .then((res) => res.json())
       .then((data) => setSearchResults(data))
       .catch((error) => console.error("Error searching for food items:", error));

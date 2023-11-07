@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
+import { Helmet } from "react-helmet";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../providers/AuthProvider";
-import {Helmet} from "react-helmet";
 function validatePassword(password) {
   if (
     password.length < 6 ||
@@ -47,7 +47,7 @@ const SignUp = () => {
         const uId = result.user.uid;
         console.log(uId);
         const user = { uid: uId, email, photoURL, displayName, password };
-        fetch("http://localhost:5000/user", {
+        fetch("https://b8a11-server-side-adnanalemran.vercel.app/user", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +105,7 @@ const SignUp = () => {
          <Helmet>
         <title>FreshTaste || Sign Up page</title>
       </Helmet>
-      <div className="w-1/2">
+      <div className="w-1/2 hidden  lg:flex">
         <div className="w-full">
           <img
             src="https://i.ibb.co/MGkRC3R/login-users-min.png"
@@ -113,7 +113,7 @@ const SignUp = () => {
           />
         </div>
       </div>
-      <div className="w-full mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 dark:bg-gray-900 dark:text-gray-200">
+      <div className="lg:w-1/2 w-full mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 dark:bg-gray-900 dark:text-gray-200">
         <h1 className="text-2xl font-bold text-center">Sign Up</h1>
         <form onSubmit={handleSignUp} className="space-y-6">
           <div className="space-y-1 text-sm">

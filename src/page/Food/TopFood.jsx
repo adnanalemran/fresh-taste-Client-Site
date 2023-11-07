@@ -6,13 +6,13 @@ const TopFood = () => {
 
   useEffect(() => {
     // Make an HTTP GET request to the backend API
-    fetch("http://localhost:5000/food/top6")
+    fetch("https://b8a11-server-side-adnanalemran.vercel.app/food/top6")
       .then((response) => response.json())
       .then((data) => setTopFoodData(data))
       .catch((error) => console.error("Error fetching top food data:", error));
   }, []);
   return (
-    <div className="md:pb-12 lg:pb-32">
+    <div id="top-6" className="md:pb-12 lg:pb-32">
       <h2 className="text-4xl font-bold text-center py-4">Our Top FOOD</h2>
       <hr className="border-spacing-2 border-yellow-600 w-1/2 mx-auto" />
 

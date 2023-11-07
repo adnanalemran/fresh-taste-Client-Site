@@ -7,7 +7,7 @@ const Profile = () => {
   const [dbuser, setDbuser] = useState(null);
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/user/${user?.uid}`)
+      .get(`https://b8a11-server-side-adnanalemran.vercel.app/user/${user?.uid}`)
       .then((res) => {
         setDbuser(res.data);
       })
@@ -24,7 +24,7 @@ const Profile = () => {
     };
 
     axios
-      .put(`http://localhost:5000/user/update/${user?.uid}`, formData)
+      .put(`https://b8a11-server-side-adnanalemran.vercel.app/user/update/${user?.uid}`, formData)
       .then((res) => {
         console.log(res.data);
       })

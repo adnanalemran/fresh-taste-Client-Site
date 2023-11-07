@@ -21,7 +21,7 @@ const Footer = () => {
           <Link to="/privacy-policy" className="link link-hover">Privacy policy</Link>
         </nav>
       </footer>
-      <footer className="footer px-10 py-4 border-t  text-base-content border-base-300">
+      <footer className="footer px-10 py-4 border-t  max-w-7xl mx-auto text-base-content border-base-300">
         <aside className="items-center grid-flow-col">
        <img className="w-16" src="https://i.ibb.co/sKZFWQJ/logo-back.png" alt="" />
           <p>

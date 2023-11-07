@@ -28,7 +28,7 @@ const AddFood = () => {
       ...formData,
     };
 
-    fetch("http://localhost:5000/food", {
+    fetch("https://b8a11-server-side-adnanalemran.vercel.app/food", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

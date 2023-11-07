@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { AuthContext } from "../../providers/AuthProvider";
+import { useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import { AuthContext } from "../../providers/AuthProvider";
 
 const OrderPage = () => {
   const [food, setFood] = useState({});
@@ -41,7 +41,7 @@ const OrderPage = () => {
     try {
       // Replace `singleData._id` with the correct identifier for your item
       const response = await fetch(
-        `http://localhost:5000/food/update/${id}`,
+        `https://b8a11-server-side-adnanalemran.vercel.app/food/update/${id}`,
         {
           method: "PUT",
           headers: {
@@ -68,7 +68,7 @@ const OrderPage = () => {
 
   useEffect(() => {
     if (id) {
-      fetch(`http://localhost:5000/food/${id}`)
+      fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/${id}`)
         .then((response) => response.json())
         .then((data) => {
           console.log("API Response:", data);  

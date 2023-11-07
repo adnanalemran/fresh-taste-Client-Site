@@ -1,20 +1,20 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
-import Home from "../page/Home/Home";
+import Blog from "../page/Blog/Blog";
+import Page404 from "../page/Error/Page404";
 import AddFood from "../page/Food/AddFood";
 import AllFoodItems from "../page/Food/AllFoodItems";
-import Page404 from "../page/Error/Page404";
+import FoodDetails from "../page/Food/FoodDetails";
+import OrderPage from "../page/Food/OrderPage";
+import UpdateFood from "../page/Food/UpdateFood";
+import Home from "../page/Home/Home";
+import MyAdded from "../page/Profile/MyAdded";
+import MyOrderFood from "../page/Profile/MyOrderFood";
+import Profile from "../page/Profile/Profile";
 import SignIn from "../page/SignIn/SignIn";
 import SignUp from "../page/SignUp/SignUp";
 import PrivateRoute from "./PrivateRoute";
-import FoodDetails from "../page/Food/FoodDetails";
-import OrderPage from "../page/Food/OrderPage";
-import MyOrderFood from "../page/Profile/MyOrderFood";
-import MyAdded from "../page/Profile/MyAdded";
-import UpdateFood from "../page/Food/UpdateFood";
-import Blog from "../page/Blog/Blog";
-import Profile from "../page/Profile/Profile";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       {
         path: "/all-food",
         element: <AllFoodItems />,
-        loader: () => fetch("http://localhost:5000/foodCount"),
+        loader: () => fetch("https://b8a11-server-side-adnanalemran.vercel.app/foodCount"),
       },
       {
         path: "/login",
@@ -113,7 +113,7 @@ const router = createBrowserRouter([
         ),
         loader: async ({ params }) => {
           const response = await fetch(
-            `http://localhost:5000/food/${params.id}`
+            `https://b8a11-server-side-adnanalemran.vercel.app/food/${params.id}`
           );
           if (!response.ok) {
             throw new Error("Failed to fetch food data for updating");
