@@ -16,7 +16,7 @@ function validatePassword(password) {
 }
 
 const SignUp = () => {
-    const { createUser } = useContext(AuthContext);
+  const { createUser } = useContext(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -37,8 +37,8 @@ const SignUp = () => {
     const displayName = form.displayName.value;
     const photoURL = form.photoURL.value;
     const email = form.email.value;
-    console.log(displayName)
-
+    console.log(displayName);
+    const userOrderCount = 0;
 
     createUser(email, password)
       .then((result) => {
@@ -46,7 +46,15 @@ const SignUp = () => {
         result.user.photoURL = photoURL;
         const uId = result.user.uid;
         console.log(uId);
-        const user = { uid: uId, email, photoURL, displayName, password };
+        
+        const user = {
+          uid: uId,
+          email,
+          photoURL,
+          displayName,
+          password,
+          userOrderCount,
+        };
         fetch("https://b8a11-server-side-adnanalemran.vercel.app/user", {
           method: "POST",
           headers: {
@@ -102,15 +110,12 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-row-reverse">
-         <Helmet>
+      <Helmet>
         <title>FreshTaste || Sign Up page</title>
       </Helmet>
       <div className="w-1/2 hidden  lg:flex">
         <div className="w-full">
-          <img
-            src="https://i.ibb.co/MGkRC3R/login-users-min.png"
-            alt=""
-          />
+          <img src="https://i.ibb.co/MGkRC3R/login-users-min.png" alt="" />
         </div>
       </div>
       <div className="lg:w-1/2 w-full mx-auto max-w-md p-8 space-y-3 rounded-xl border my-5 dark:bg-gray-900 dark:text-gray-200">
