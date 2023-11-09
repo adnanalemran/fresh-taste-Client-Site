@@ -89,6 +89,10 @@ const router = createBrowserRouter([
         element: <AllFoodItems />,
       },
       {
+        path: "/all-food-text",
+        element: <AllFoodItems />,
+      },
+      {
         path: "my-order-food-item",
         element: (
           <PrivateRoute>

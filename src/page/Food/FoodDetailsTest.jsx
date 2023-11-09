@@ -36,13 +36,13 @@ const SkeletonLoader = () => {
   );
 };
 
-const AllFoodItems = () => {
+const FoodDetailsTest = () => {
   const [food, setFood] = useState([]);
   const { count } = useLoaderData();
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const numberOfPages = parseInt(Math.ceil(count / itemsPerPage));
   const [currentPage, setCurrentPage] = useState(0);
-
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
 
   useEffect(() => {
@@ -65,24 +65,32 @@ const AllFoodItems = () => {
     }
   };
 
-  const [searchQuery, setSearchQuery] = useState("");
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     e.preventDefault();
-    fetch(`https://b8a11-server-side-adnanalemran.vercel.app/food/search/${searchQuery}`)
-      .then((res) => res.json())
-      .then((data) => setSearchResults(data))
-      .catch((error) =>
-        console.error("Error searching for food items:", error)
+    try {
+      const response = await fetch(
+        // `https://b8a11-server-side-adnanalemran.vercel.app/food/search?search=${searchQuery}`
       );
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (error) {
+      console.error("Error searching for food items:", error);
+    }
   };
-
+  
   return (
+
     <div className="py-28 md:w-[768px] lg:w-[1280px] mx-auto">
-      <Helmet>
+       <Helmet>
         <title>FreshTaste || All food page</title>
       </Helmet>
       <div className="w-full flex ">
-        <form onSubmit={handleSearch} className="form-control mx-auto">
+      <form onSubmit={handleSearch} className="form-control mx-auto">
           <div className="input-group">
             <input
               type="text"
@@ -239,4 +247,7 @@ const AllFoodItems = () => {
   );
 };
 
-export default AllFoodItems;
+export default FoodDetailsTest;
+
+
+ 
